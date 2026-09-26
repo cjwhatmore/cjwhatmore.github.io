@@ -1,0 +1,994 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+
+
+/* ========================================
+   1. VARIABLES & GLOBAL STYLES
+======================================== */
+
+:root {
+    --bg: #f5f4ef;
+    --paper: #efeee7;
+    --ink: #242620;
+    --muted: #74776f;
+    --line: #d7d8cf;
+    --accent: #b65d41;
+    --max: 1180px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.6 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 5px;
+}
+
+::selection {
+    background: #ded1c3;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+
+/* ========================================
+   2. SHARED LAYOUT & UTILITIES
+======================================== */
+
+.wrap {
+    width: min(calc(100% - 72px), var(--max));
+    margin-inline: auto;
+}
+
+.accent {
+    color: var(--accent);
+}
+
+.skip-link {
+    position: absolute;
+    left: 16px;
+    top: -100px;
+    background: var(--ink);
+    color: white;
+    padding: 8px;
+    z-index: 20;
+}
+
+.skip-link:focus {
+    top: 16px;
+}
+
+.eyebrow,
+.kicker,
+.project-meta,
+.art-corner,
+.art-axis,
+.hero-rule,
+.fact-row > span:first-child,
+.small-muted,
+.site-footer {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+}
+
+.kicker {
+    color: var(--accent);
+    margin-bottom: 17px;
+}
+
+.small-muted {
+    color: var(--muted);
+}
+
+
+/* ========================================
+   3. HEADER & NAVIGATION
+======================================== */
+
+.site-header {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    border-bottom: 1px solid var(--line);
+}
+
+.brand {
+    font-size: 33px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.12em;
+    white-space: nowrap;
+}
+
+.brand span {
+    color: var(--accent);
+}
+
+/* Navigation links */
+
+.site-header nav {
+    display: flex;
+    gap: 30px;
+    margin-left: auto;
+}
+
+.site-header nav a,
+.nav-resume {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.site-header a:hover,
+.site-footer a:hover {
+    color: var(--accent);
+}
+
+/* Resume button */
+
+.nav-resume {
+    border: 1px solid var(--ink);
+    border-radius: 100px;
+    padding: 10px 17px;
+}
+
+.nav-resume span {
+    margin-left: 12px;
+}
+
+
+/* ========================================
+   4. HERO SECTION
+======================================== */
+
+.hero {
+    padding-top: 107px;
+}
+
+/* Availability indicator */
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--muted);
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+/* Main title */
+
+h1 {
+    font-size: clamp(63px, 9.3vw, 142px);
+    line-height: 0.97;
+    letter-spacing: -0.087em;
+    font-weight: 500;
+    margin: 24px 0 57px;
+}
+
+.serif {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.045em;
+}
+
+/* Hero description and button */
+
+.hero-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 30px;
+}
+
+.hero-bottom p {
+    max-width: 530px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: #52564e;
+    margin: 0;
+}
+
+.round-link {
+    border: 1px solid var(--ink);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    width: 69px;
+    height: 69px;
+    font-size: 32px;
+
+    transition:
+        background 0.2s,
+        color 0.2s,
+        transform 0.2s;
+}
+
+.round-link:hover {
+    background: var(--ink);
+    color: var(--bg);
+    transform: translate(2px, 2px);
+}
+
+/* Bottom divider */
+
+.hero-rule {
+    margin-top: 112px;
+    border-top: 1px solid var(--line);
+    padding: 16px 0;
+
+    display: flex;
+    justify-content: space-between;
+
+    color: var(--muted);
+}
+
+
+/* ========================================
+   5. GENERAL SECTION STYLES
+======================================== */
+
+.section {
+    padding-top: 100px;
+    padding-bottom: 125px;
+    scroll-margin-top: 25px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.section h2,
+.contact-section h2 {
+    font-size: clamp(42px, 5.4vw, 72px);
+    line-height: 1.1;
+    font-weight: 500;
+    letter-spacing: -0.065em;
+    margin: 0;
+}
+
+.section-aside {
+    max-width: 250px;
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 8px;
+}
+
+
+/* ========================================
+   6. PROJECTS SECTION
+======================================== */
+
+/* Project grid */
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 23px;
+}
+
+/* Individual project cards */
+
+.project-card {
+    display: block;
+    min-width: 0;
+}
+
+.project-art {
+    height: 330px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background-color: #e8e7de;
+
+    transition: filter 0.25s;
+}
+
+.project-card:hover .project-art {
+    filter: contrast(1.08);
+}
+
+/* Background grid pattern */
+
+.project-art::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(#7778 1px, transparent 1px),
+        linear-gradient(90deg, #7778 1px, transparent 1px);
+
+    background-size: 35px 35px;
+    opacity: 0.13;
+    z-index: -1;
+}
+
+/* Artwork labels */
+
+.art-corner,
+.art-axis {
+    position: absolute;
+    color: #555b51;
+}
+
+.art-corner {
+    top: 19px;
+    left: 20px;
+}
+
+.art-axis {
+    bottom: 19px;
+    right: 20px;
+}
+
+
+/* ----------------------------------------
+   6A. SENSOR PROJECT ARTWORK
+---------------------------------------- */
+
+.art-sensor {
+    background: #e4e9e2;
+}
+
+.sensor-ring {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    left: 50%;
+    top: 50%;
+
+    border: 1px solid #7c9180;
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+.ring-two {
+    width: 170px;
+    height: 170px;
+    border-style: dashed;
+    opacity: 0.7;
+}
+
+.sensor-core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 83px;
+    height: 83px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid #506552;
+    background: #becdc0;
+    box-shadow: 12px 12px 0 #50655223;
+
+    font: 500 15px 'DM Mono', monospace;
+
+    transform: translate(-50%, -50%) rotate(-12deg);
+}
+
+.sensor-core i {
+    position: absolute;
+    width: 120px;
+    height: 1px;
+    background: #506552;
+
+    transform: rotate(45deg);
+}
+
+
+/* ----------------------------------------
+   6B. CAM PROJECT ARTWORK
+---------------------------------------- */
+
+.art-cam {
+    background: #eae4dc;
+}
+
+.cam-shape {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    width: 198px;
+    height: 198px;
+
+    border-radius: 50% 50% 48% 12%;
+    border: 34px solid #9b7d62;
+
+    box-shadow:
+        inset 0 0 0 2px #eae4dc,
+        0 12px 28px #76604727;
+
+    transform: translate(-50%, -50%) rotate(-30deg);
+}
+
+.cam-pin {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    width: 53px;
+    height: 53px;
+
+    border: 10px solid #69584a;
+    border-radius: 50%;
+    background: #eae4dc;
+
+    transform: translate(-50%, -50%);
+}
+
+
+/* ----------------------------------------
+   6C. TEST FIXTURE PROJECT ARTWORK
+---------------------------------------- */
+
+.art-fixture {
+    background: #e5e9eb;
+}
+
+.fixture-frame {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    width: 190px;
+    height: 192px;
+
+    border: 15px solid #718690;
+    border-bottom-width: 20px;
+    box-shadow: 15px 15px 0 #71869020;
+
+    transform: translate(-50%, -50%);
+}
+
+.fixture-plunger {
+    position: absolute;
+    left: 50%;
+    top: -2px;
+    width: 26px;
+    height: 110px;
+
+    background: #9bafb7;
+    border: 4px solid #5b707a;
+
+    transform: translateX(-50%);
+}
+
+.fixture-base {
+    position: absolute;
+    left: 50%;
+    bottom: 11px;
+    width: 112px;
+    height: 16px;
+
+    background: #5b707a;
+
+    transform: translateX(-50%);
+}
+
+
+/* ----------------------------------------
+   6D. PROJECT CARD TEXT
+---------------------------------------- */
+
+.project-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+
+    color: var(--muted);
+    padding-top: 18px;
+}
+
+.project-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 15px;
+    margin-top: 7px;
+}
+
+.project-title-row h3 {
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Project arrow */
+
+.project-title-row > span {
+    font-size: 24px;
+    transition: transform 0.2s;
+}
+
+.project-card:hover .project-title-row > span {
+    transform: translate(4px, -4px);
+    color: var(--accent);
+}
+
+/* Project description */
+
+.project-card > p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 310px;
+    margin: 13px 0 0;
+}
+
+
+/* ========================================
+   7. ABOUT SECTION
+======================================== */
+
+.about-section {
+    background: var(--paper);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 95px;
+}
+
+.about-copy {
+    padding-top: 35px;
+}
+
+.about-copy > p {
+    font-size: 18px;
+    line-height: 1.75;
+    color: #55584f;
+    max-width: 530px;
+}
+
+/* Personal information rows */
+
+.fact-row {
+    display: grid;
+    grid-template-columns: 115px 1fr;
+    gap: 20px;
+
+    border-top: 1px solid var(--line);
+    padding: 15px 0;
+
+    font-size: 13px;
+}
+
+.fact-row:first-of-type {
+    margin-top: 33px;
+}
+
+.fact-row > span:first-child {
+    color: var(--muted);
+    padding-top: 4px;
+}
+
+
+/* ========================================
+   8. INFO PANELS
+======================================== */
+
+.two-up {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.info-panel {
+    background: #eeede6;
+    border: 1px solid var(--line);
+    min-height: 285px;
+    padding: 33px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.info-panel h2 {
+    font-size: 49px;
+}
+
+.info-panel > p:not(.kicker) {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 300px;
+    margin-top: 16px;
+}
+
+/* Panel footer */
+
+.panel-bottom {
+    margin-top: auto;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.link-arrow {
+    font-size: 24px;
+}
+
+.panel-link:hover {
+    color: var(--accent);
+}
+
+
+/* ========================================
+   9. CONTACT SECTION
+======================================== */
+
+.contact-section {
+    background: #242821;
+    color: #f5f4ef;
+    padding: 98px 0 115px;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+}
+
+.contact-details {
+    padding-top: 39px;
+}
+
+.contact-details p {
+    color: #c8c9c0;
+    max-width: 405px;
+    font-size: 18px;
+    line-height: 1.65;
+    margin-bottom: 30px;
+}
+
+/* Contact links */
+
+.contact-details a {
+    display: flex;
+    justify-content: space-between;
+
+    border-bottom: 1px solid #77796e;
+    padding: 13px 0;
+
+    font-size: 17px;
+}
+
+.contact-details a:hover {
+    color: #dba88f;
+}
+
+.contact-details .small-muted {
+    display: block;
+    margin-top: 17px;
+    color: #aaa99f;
+}
+
+
+/* ========================================
+   10. FOOTER
+======================================== */
+
+.site-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    min-height: 116px;
+    color: var(--muted);
+}
+
+.site-footer .brand {
+    color: var(--ink);
+}
+
+
+/* ========================================
+   11. PROJECT DETAIL PAGES
+======================================== */
+
+.detail-main {
+    padding-top: 90px;
+    padding-bottom: 125px;
+    max-width: 870px;
+}
+
+/* Back navigation */
+
+.back-link {
+    font: 11px 'DM Mono', monospace;
+    color: var(--muted);
+}
+
+.back-link:hover {
+    color: var(--accent);
+}
+
+/* Detail page title */
+
+.detail-main h1 {
+    font-size: clamp(57px, 8vw, 105px);
+    margin: 45px 0 28px;
+}
+
+/* Introductory description */
+
+.detail-lead {
+    font-size: 22px;
+    line-height: 1.6;
+    max-width: 730px;
+    color: #50564d;
+}
+
+/* Status tags */
+
+.detail-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 35px 0 70px;
+}
+
+.tag {
+    font: 11px 'DM Mono', monospace;
+    border: 1px solid var(--line);
+    border-radius: 50px;
+    padding: 7px 12px;
+    color: var(--muted);
+}
+
+/* Project content blocks */
+
+.detail-block {
+    padding: 38px 0;
+    border-top: 1px solid var(--line);
+
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 40px;
+}
+
+.detail-block h2 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    margin: 0;
+}
+
+.detail-block p {
+    color: #55584f;
+    max-width: 600px;
+}
+
+.detail-block ul {
+    padding-left: 20px;
+    color: #55584f;
+}
+
+.detail-block li + li {
+    margin-top: 9px;
+}
+
+
+/* ========================================
+   12. RESPONSIVE DESIGN — TABLETS
+   Screens smaller than 900px
+======================================== */
+
+@media (max-width: 900px) {
+
+    .project-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about-grid {
+        gap: 40px;
+    }
+
+    .site-header {
+        gap: 25px;
+    }
+
+}
+
+
+/* ========================================
+   13. RESPONSIVE DESIGN — MOBILE
+   Screens smaller than 640px
+======================================== */
+
+@media (max-width: 640px) {
+
+    /* General layout */
+
+    .wrap {
+        width: min(calc(100% - 36px), var(--max));
+    }
+
+    /* Header */
+
+    .site-header {
+        height: 76px;
+        gap: 16px;
+    }
+
+    .site-header nav {
+        gap: 14px;
+    }
+
+    .site-header nav a {
+        font-size: 12px;
+    }
+
+    .nav-resume {
+        display: none;
+    }
+
+    /* Hero */
+
+    .hero {
+        padding-top: 82px;
+    }
+
+    h1 {
+        font-size: clamp(60px, 12.7vw, 90px);
+        margin-bottom: 40px;
+    }
+
+    .hero-bottom p {
+        font-size: 16px;
+    }
+
+    .round-link {
+        width: 51px;
+        height: 51px;
+        flex-shrink: 0;
+        font-size: 24px;
+    }
+
+    .hero-rule {
+        margin-top: 75px;
+    }
+
+    /* Sections */
+
+    .section {
+        padding-top: 74px;
+        padding-bottom: 86px;
+    }
+
+    .section-heading {
+        display: block;
+    }
+
+    .section-aside {
+        margin-top: 15px;
+    }
+
+    /* Projects */
+
+    .project-grid {
+        grid-template-columns: 1fr;
+        gap: 43px;
+    }
+
+    .project-art {
+        height: 300px;
+    }
+
+    /* About, contact, and panels */
+
+    .about-grid,
+    .contact-grid,
+    .two-up {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .about-copy,
+    .contact-details {
+        padding-top: 0;
+    }
+
+    .two-up {
+        gap: 18px;
+    }
+
+    .info-panel {
+        min-height: 245px;
+    }
+
+    /* Contact */
+
+    .contact-section {
+        padding: 75px 0 90px;
+    }
+
+    /* Footer */
+
+    .site-footer {
+        flex-wrap: wrap;
+        padding-top: 24px;
+        padding-bottom: 24px;
+        min-height: 100px;
+    }
+
+    .site-footer > span {
+        order: 3;
+        width: 100%;
+    }
+
+    /* Project detail pages */
+
+    .detail-main {
+        padding-top: 65px;
+    }
+
+    .detail-block {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+}
+
+
+/* ========================================
+   14. ACCESSIBILITY
+   Reduce animation when requested
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+    }
+
+}

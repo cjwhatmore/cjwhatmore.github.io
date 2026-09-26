@@ -1,12 +1,655 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f4ef">
+
+    <meta
+        name="description"
+        content="Cooper Whatmore — engineering physics student, builder, and climber. Selected projects and work."
+    >
+
+    <title>Cooper Whatmore — Engineering Portfolio</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- JavaScript -->
+    <script src="script.js" defer></script>
 </head>
 
+
 <body>
-    <header>Cooper's Swag Epic Engineering Portfolio</header>
+
+    <!-- ========================================
+         1. ACCESSIBILITY
+    ======================================== -->
+
+    <a class="skip-link" href="#main">
+        Skip to content
+    </a>
+
+
+    <!-- ========================================
+         2. HEADER & NAVIGATION
+    ======================================== -->
+
+    <header class="site-header wrap">
+
+        <!-- Logo -->
+        <a
+            class="brand"
+            href="#top"
+            aria-label="Cooper Whatmore, home"
+        >
+            cw<span>.</span>
+        </a>
+
+        <!-- Navigation links -->
+        <nav aria-label="Main navigation">
+            <a href="#projects">Projects</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <!-- Resume button -->
+        <a class="nav-resume" href="#resume">
+            Résumé
+            <span aria-hidden="true">↗</span>
+        </a>
+
+    </header>
+
+
+    <!-- ========================================
+         3. MAIN CONTENT
+    ======================================== -->
+
+    <main id="main">
+
+
+        <!-- ====================================
+             3A. HERO SECTION
+        ==================================== -->
+
+        <section
+            class="hero wrap"
+            id="top"
+            aria-labelledby="hero-title"
+        >
+
+            <!-- Status / introduction -->
+            <div class="eyebrow">
+
+                <span
+                    class="status-dot"
+                    aria-hidden="true"
+                ></span>
+
+                ENGINEERING PHYSICS · COLORADO
+
+            </div>
+
+
+            <!-- Main heading -->
+            <h1 id="hero-title">
+                Curious about<br>
+                <span class="serif">how things work.</span>
+            </h1>
+
+
+            <!-- Description and scroll button -->
+            <div class="hero-bottom">
+
+                <p>
+                    I'm Cooper — an engineering physics student
+                    interested in the intersection of hardware,
+                    software, and the outdoors. I like building
+                    things, testing ideas, and understanding the
+                    physics behind them.
+                </p>
+
+                <a
+                    class="round-link"
+                    href="#projects"
+                    aria-label="Explore projects"
+                >
+                    <span aria-hidden="true">↘</span>
+                </a>
+
+            </div>
+
+
+            <!-- Section divider -->
+            <div class="hero-rule" aria-hidden="true">
+
+                <span>01 / SELECTED WORK</span>
+                <span>SCROLL TO EXPLORE ↓</span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ====================================
+             3B. PROJECTS SECTION
+        ==================================== -->
+
+        <section
+            class="section wrap"
+            id="projects"
+            aria-labelledby="projects-title"
+        >
+
+            <!-- Section heading -->
+            <div class="section-heading">
+
+                <div>
+                    <p class="kicker">
+                        01 / WHAT I'M BUILDING
+                    </p>
+
+                    <h2 id="projects-title">
+                        Selected projects<span class="accent">.</span>
+                    </h2>
+                </div>
+
+                <p class="section-aside">
+                    A growing collection of experiments,
+                    prototypes, and engineering work.
+                </p>
+
+            </div>
+
+
+            <!-- Project cards -->
+            <div class="project-grid">
+
+
+                <!-- --------------------------------
+                     PROJECT 1: CLIMBING FALL SENSOR
+                -------------------------------- -->
+
+                <a
+                    class="project-card"
+                    href="projects/fall-sensor.html"
+                >
+
+                    <!-- Artwork -->
+                    <div
+                        class="project-art art-sensor"
+                        aria-hidden="true"
+                    >
+
+                        <span class="art-corner">
+                            01 / SENSOR SYSTEMS
+                        </span>
+
+                        <span class="sensor-ring ring-one"></span>
+                        <span class="sensor-ring ring-two"></span>
+
+                        <span class="sensor-core">
+                            <span>IMU</span>
+                            <i></i>
+                        </span>
+
+                        <span class="art-axis">
+                            X — Y — Z
+                        </span>
+
+                    </div>
+
+
+                    <!-- Project metadata -->
+                    <div class="project-meta">
+                        <span>HARDWARE / SOFTWARE</span>
+                        <span>IN PROGRESS ↗</span>
+                    </div>
+
+
+                    <!-- Project title -->
+                    <div class="project-title-row">
+
+                        <h3>Climbing Fall Sensor</h3>
+
+                        <span aria-hidden="true">↗</span>
+
+                    </div>
+
+
+                    <!-- Project description -->
+                    <p>
+                        Exploring accelerometer data, motion tracking,
+                        and fall-event detection for climbing.
+                    </p>
+
+                </a>
+
+
+
+                <!-- --------------------------------
+                     PROJECT 2: CAM MECHANISM
+                -------------------------------- -->
+
+                <a
+                    class="project-card"
+                    href="projects/cam-analysis.html"
+                >
+
+                    <!-- Artwork -->
+                    <div
+                        class="project-art art-cam"
+                        aria-hidden="true"
+                    >
+
+                        <span class="art-corner">
+                            02 / MECHANICAL DESIGN
+                        </span>
+
+                        <span class="cam-shape"></span>
+                        <span class="cam-pin"></span>
+
+                        <span class="art-axis">
+                            F · μ · θ
+                        </span>
+
+                    </div>
+
+
+                    <!-- Project metadata -->
+                    <div class="project-meta">
+                        <span>MECHANICS / CAD</span>
+                        <span>CONCEPT ↗</span>
+                    </div>
+
+
+                    <!-- Project title -->
+                    <div class="project-title-row">
+
+                        <h3>Cam Mechanism Analysis</h3>
+
+                        <span aria-hidden="true">↗</span>
+
+                    </div>
+
+
+                    <!-- Project description -->
+                    <p>
+                        Examining the geometry, contact forces,
+                        and mechanics behind spring-loaded
+                        camming devices.
+                    </p>
+
+                </a>
+
+
+
+                <!-- --------------------------------
+                     PROJECT 3: MECHANICAL TEST FIXTURE
+                -------------------------------- -->
+
+                <a
+                    class="project-card"
+                    href="projects/test-fixture.html"
+                >
+
+                    <!-- Artwork -->
+                    <div
+                        class="project-art art-fixture"
+                        aria-hidden="true"
+                    >
+
+                        <span class="art-corner">
+                            03 / EXPERIMENTAL DESIGN
+                        </span>
+
+                        <span class="fixture-frame">
+                            <span class="fixture-plunger"></span>
+                            <span class="fixture-base"></span>
+                        </span>
+
+                        <span class="art-axis">
+                            LOAD / MEASURE / REPEAT
+                        </span>
+
+                    </div>
+
+
+                    <!-- Project metadata -->
+                    <div class="project-meta">
+                        <span>TESTING / INSTRUMENTATION</span>
+                        <span>CONCEPT ↗</span>
+                    </div>
+
+
+                    <!-- Project title -->
+                    <div class="project-title-row">
+
+                        <h3>Mechanical Test Fixture</h3>
+
+                        <span aria-hidden="true">↗</span>
+
+                    </div>
+
+
+                    <!-- Project description -->
+                    <p>
+                        Designing an instrumented setup for
+                        repeatable mechanical testing of
+                        non-life-safety prototypes.
+                    </p>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ====================================
+             3C. ABOUT SECTION
+        ==================================== -->
+
+        <section
+            class="section about-section"
+            id="about"
+            aria-labelledby="about-title"
+        >
+
+            <div class="wrap about-grid">
+
+
+                <!-- About heading -->
+                <div>
+
+                    <p class="kicker">
+                        02 / THE PERSON BEHIND THE WORK
+                    </p>
+
+                    <h2 id="about-title">
+                        A little<br>
+                        <span class="serif">about me.</span>
+                    </h2>
+
+                </div>
+
+
+                <!-- About description -->
+                <div class="about-copy">
+
+                    <p>
+                        I'm studying Engineering Physics at the
+                        Colorado School of Mines. I'm drawn to
+                        work that connects fundamental physics
+                        with useful, tangible engineering.
+                    </p>
+
+                    <p>
+                        Outside the classroom, I coach climbing
+                        and spend a lot of time outdoors. That
+                        overlap has shaped my interest in climbing
+                        hardware, measurement systems, mechanical
+                        design, and testing.
+                    </p>
+
+
+                    <!-- Personal information -->
+                    <div class="fact-row">
+
+                        <span>FOCUS AREAS</span>
+
+                        <span>
+                            Prototyping · sensors · mechanics · coding
+                        </span>
+
+                    </div>
+
+                    <div class="fact-row">
+
+                        <span>ALSO INTO</span>
+
+                        <span>
+                            Climbing · outdoor adventures · quantum technology
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ====================================
+             3D. RESUME & OUTSIDE SECTION
+        ==================================== -->
+
+        <section
+            class="section wrap two-up"
+            aria-label="More information"
+        >
+
+
+            <!-- --------------------------------
+                 RESUME PANEL
+            -------------------------------- -->
+
+            <div class="info-panel" id="resume">
+
+                <p class="kicker">
+                    03 / EXPERIENCE
+                </p>
+
+                <h2>
+                    Résumé<span class="accent">.</span>
+                </h2>
+
+                <p>
+                    Education, technical work, and experience —
+                    all in one place.
+                </p>
+
+
+                <!-- Resume placeholder -->
+                <div class="panel-bottom">
+
+                    <span class="small-muted">
+                        ADD YOUR PDF TO ENABLE DOWNLOAD
+                    </span>
+
+                    <span
+                        class="link-arrow"
+                        aria-hidden="true"
+                    >
+                        ↗
+                    </span>
+
+                </div>
+
+
+                <!--
+                    TO ENABLE RESUME DOWNLOAD:
+
+                    1. Add your resume PDF to:
+                       assets/resume.pdf
+
+                    2. Replace the panel-bottom div above
+                       with this link:
+
+                    <a
+                        class="panel-bottom panel-link"
+                        href="assets/resume.pdf"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        View résumé (PDF)
+                        <span aria-hidden="true">↗</span>
+                    </a>
+                -->
+
+            </div>
+
+
+
+            <!-- --------------------------------
+                 OUTSIDE / ADVENTURES PANEL
+            -------------------------------- -->
+
+            <div class="info-panel" id="outside">
+
+                <p class="kicker">
+                    04 / BEYOND THE DESK
+                </p>
+
+                <h2>
+                    Outside<span class="accent">.</span>
+                </h2>
+
+                <p>
+                    Climbing, exploring, and ideas that start
+                    somewhere other than a desk.
+                </p>
+
+
+                <!-- Coming soon placeholder -->
+                <div class="panel-bottom">
+
+                    <span class="small-muted">
+                        PHOTOS & NOTES COMING SOON
+                    </span>
+
+                    <span
+                        class="link-arrow"
+                        aria-hidden="true"
+                    >
+                        ↗
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ====================================
+             3E. CONTACT SECTION
+        ==================================== -->
+
+        <section
+            class="contact-section"
+            id="contact"
+            aria-labelledby="contact-title"
+        >
+
+            <div class="wrap contact-grid">
+
+
+                <!-- Contact heading -->
+                <div>
+
+                    <p class="kicker">
+                        05 / SAY HELLO
+                    </p>
+
+                    <h2 id="contact-title">
+                        Have a project<br>
+                        <span class="serif">in mind?</span>
+                    </h2>
+
+                </div>
+
+
+                <!-- Contact information -->
+                <div class="contact-details">
+
+                    <p>
+                        I'm always interested in thoughtful
+                        engineering problems, interesting
+                        collaborations, and opportunities to learn.
+                    </p>
+
+
+                    <!-- Email -->
+                    <a href="mailto:your.email@example.com">
+
+                        your.email@example.com
+
+                        <span aria-hidden="true">↗</span>
+
+                    </a>
+
+
+                    <!-- LinkedIn -->
+                    <a
+                        href="https://www.linkedin.com/in/cjwhatmore-2675b8348/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+
+                        LinkedIn
+
+                        <span aria-hidden="true">↗</span>
+
+                    </a>
+
+
+                    <!-- Reminder -->
+                    <span class="small-muted">
+                        Replace the sample email address before publishing.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ========================================
+         4. FOOTER
+    ======================================== -->
+
+    <footer class="site-footer wrap">
+
+        <!-- Logo / back to top -->
+        <a
+            class="brand"
+            href="#top"
+            aria-label="Back to top"
+        >
+            cw<span>.</span>
+        </a>
+
+
+        <!-- Copyright -->
+        <span>
+            BUILT WITH CURIOSITY · ©
+            <span id="year">2026</span>
+            COOPER WHATMORE
+        </span>
+
+
+        <!-- Back to top -->
+        <a href="#top">
+            BACK TO TOP ↑
+        </a>
+
+    </footer>
+
 </body>
 
 </html>
