@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASCII Donut | Cooper Whatmore</title>
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .donut-page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .back-link {
+      color: #929292;
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    .donut-page h1 {
+      font-size: 38px;
+      margin: 50px 0 10px;
+    }
+
+    .donut-description {
+      color: #929292;
+      max-width: 600px;
+    }
+
+    .terminal {
+      background: #101010;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 25px;
+      margin: 35px 0;
+      overflow-x: auto;
+    }
+
+    #donut {
+      color: #e6e6e6;
+      font-family: monospace;
+      font-size: 11px;
+      line-height: 1;
+      letter-spacing: 0;
+      white-space: pre;
+      width: max-content;
+      margin: auto;
+    }
+
+    .donut-info {
+      color: #929292;
+      font-family: monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="donut-page">
+
+    <a href="../index.html" class="back-link">
+      ← back to projects
+    </a>
+
+    <h1>ASCII Donut</h1>
+
+    <p class="donut-description">
+      A rotating 3D torus rendered entirely using ASCII
+      characters. Implemented with JavaScript using
+      basic 3D projection, surface normals, and
+      illumination calculations.
+    </p>
+
+    <div class="terminal">
+      <pre id="donut" aria-label="Animated rotating ASCII donut"></pre>
+    </div>
+
+    <p class="donut-info">
+      javascript / 3D mathematics / ASCII rendering
+    </p>
+
+  </main>
+
+  <script src="../donut.js"></script>
+
+</body>
+</html>

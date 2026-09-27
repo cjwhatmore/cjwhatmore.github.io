@@ -292,3 +292,66 @@ footer {
     transition: none;
   }
 }
+
+
+/* ------------------------------
+   ASCII DONUT DECORATION
+------------------------------ */
+
+.hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+
+  min-height: 250px;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.donut-decoration {
+  flex-shrink: 0;
+  width: 290px;
+  height: 150px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#donut {
+  margin: 0;
+  color: #a9a9a9;
+
+  font-family: "Courier New", monospace;
+  font-size: 7px;
+  line-height: 7px;
+  letter-spacing: 0;
+
+  white-space: pre;
+  user-select: none;
+}
+
+/* Hide the decoration on small screens */
+
+@media (max-width: 750px) {
+  .hero-header {
+    min-height: auto;
+  }
+
+  .donut-decoration {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .donut-decoration {
+    display: none;
+  }
+}
