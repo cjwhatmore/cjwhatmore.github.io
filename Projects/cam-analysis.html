@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Designing better micro cams</title>
+
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    /* Project page layout */
+
+    .project-page {
+      width: min(100% - 40px, 850px);
+      margin: 0 auto;
+      padding: 50px 0 100px;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: #929292;
+      font-family: monospace;
+      font-size: 13px;
+      margin-bottom: 55px;
+      text-decoration: none;
+    }
+
+    .project-header {
+      margin-bottom: 65px;
+    }
+
+    .project-header h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      letter-spacing: -0.04em;
+      margin: 0 0 20px;
+    }
+
+    .project-header p {
+      color: #aaa;
+      font-size: 17px;
+      max-width: 650px;
+    }
+
+    .project-section {
+      margin: 65px 0;
+    }
+
+    .project-section h2 {
+      font-size: 22px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .project-section p {
+      color: #bcbcbc;
+      line-height: 1.8;
+      max-width: 720px;
+    }
+
+    
+/* PROTOTYPE IMAGE SECTION */
+
+.prototype-section {
+  margin: 70px 0;
+  width: 100%;
+}
+
+.prototype-section h2 {
+  text-align: left;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.prototype-section > p {
+  color: #929292;
+  margin-bottom: 30px;
+}
+
+/* Two photos side by side */
+
+.prototype-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.prototype-gallery figure,
+.prototype-fea {
+  margin: 0;
+  min-width: 0;
+}
+
+.prototype-gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* FEA image */
+
+.prototype-fea {
+  margin-top: 35px;
+}
+
+.prototype-fea img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Captions */
+
+.prototype-section figcaption {
+  margin-top: 10px;
+  color: #929292;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Mobile */
+
+@media (max-width: 650px) {
+  .prototype-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+  <main class="project-page">
+
+    <!-- BACK TO HOMEPAGE -->
+
+    <a href="../index.html" class="back-link">
+      ← back to projects
+    </a>
+
+    <!-- PROJECT INTRODUCTION -->
+
+    <header class="project-header">
+
+      <h1>Designing Better Micro Cams</h1>
+
+      <p>
+        Preliminary prototypes for micro cam design, 3D printed initially in
+        PLA plastic then in machined aluminum for main construction.
+      </p>
+
+    </header>
+
+    
+<section class="prototype-section">
+
+  <!-- Two prototype photos -->
+
+  <div class="prototype-gallery">
+
+    <figure>
+      <img
+        src="../assets/camProt1.jpeg"
+        alt="Close-up of the cam prototype"
+      >
+      <figcaption>
+        Fig. 1 — prototypeV1 PLA.
+      </figcaption>
+    </figure>
+
+    <figure>
+      <img
+        src="../assets/camProt2.jpeg"
+        alt="Two views of the cam prototype"
+      >
+      <figcaption>
+        Fig. 2 — prototypeV2 Machined Aluminum.
+      </figcaption>
+    </figure>
+
+  </div>
+
+  <!-- Full-width FEA image -->
+
+  <figure class="prototype-fea">
+    <img
+      src="../assets/camFEA.jpeg"
+      alt="Equivalent von Mises stress distribution"
+    >
+    <figcaption>
+      Fig. 3 — Equivalent von Mises stress distribution
+      across the cam lobes.
+    </figcaption>
+  </figure>
+
+</section>
+
+    <a href="../index.html" class="back-link">
+      ← back to projects
+    </a>
+
+  </main>
+
+</body>
+</html>
