@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cam Physics Simulator | Cooper Whatmore</title>
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    :root {
+      --sim-bg: #181818;
+      --sim-panel: #202020;
+      --sim-panel-dark: #171717;
+      --sim-text: #e6e6e6;
+      --sim-muted: #929292;
+      --sim-border: #343434;
+
+      --sim-gold: #b89424;
+      --sim-gold-light: #e0c15a;
+      --sim-green: #78d89b;
+      --sim-red: #ed8c8c;
+      --sim-yellow: #e2c66d;
+      --sim-gray: #8a8a8a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--sim-bg);
+      color: var(--sim-text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .sim-page {
+      width: min(100% - 40px, 1100px);
+      margin: 0 auto;
+      padding: 45px 0 100px;
+    }
+
+    .back-link {
+      color: var(--sim-muted);
+      font-family: monospace;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: white;
+    }
+
+    .sim-header {
+      max-width: 780px;
+      margin: 55px 0 50px;
+    }
+
+    .sim-kicker {
+      color: var(--sim-muted);
+      font-family: monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .sim-header h1 {
+      font-size: clamp(42px, 7vw, 72px);
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+      margin: 0 0 20px;
+      font-weight: 400;
+    }
+
+    .sim-header p {
+      max-width: 720px;
+      color: #bcbcbc;
+      font-size: 17px;
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .sim-layout {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .sim-panel {
+      background: var(--sim-panel);
+      border: 1px solid var(--sim-border);
+      border-radius: 12px;
+      padding: 20px;
+      min-width: 0;
+    }
+
+    .sim-panel h2 {
+      text-align: left;
+      font-size: 18px;
+      margin: 0 0 22px;
+      font-weight: 500;
+    }
+
+    .control {
+      margin-bottom: 25px;
+    }
+
+    .control:last-child {
+      margin-bottom: 0;
+    }
+
+    .control-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .control label {
+      color: #d0d0d0;
+      font-size: 13px;
+    }
+
+    .control-value {
+      color: #d7d7d7;
+      font-family: monospace;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    input[type="range"] {
+      display: block;
+      width: 100%;
+      accent-color: #aaaaaa;
+    }
+
+    #camGraphic {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: var(--sim-panel-dark);
+      border-radius: 8px;
+    }
+
+    .visual-note {
+      margin: 12px 0 0;
+      color: var(--sim-muted);
+      font-family: monospace;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 14px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .status.safe {
+      color: var(--sim-green);
+    }
+
+    .status.safe .status-dot {
+      background: var(--sim-green);
+    }
+
+    .status.unsafe {
+      color: var(--sim-red);
+    }
+
+    .status.unsafe .status-dot {
+      background: var(--sim-red);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 15px;
+      color: var(--sim-muted);
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    .results-section {
+      margin-top: 22px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .result-card {
+      background: var(--sim-panel-dark);
+      border: 1px solid var(--sim-border);
+      border-radius: 9px;
+      padding: 14px;
+      min-width: 0;
+    }
+
+    .result-name {
+      min-height: 30px;
+      margin-bottom: 7px;
+      color: var(--sim-muted);
+      font-family: monospace;
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    .result-value {
+      font-size: 21px;
+      letter-spacing: -0.03em;
+      overflow-wrap: anywhere;
+    }
+
+    .result-unit {
+      margin-top: 2px;
+      color: var(--sim-muted);
+      font-size: 11px;
+    }
+
+    .physics-section {
+      margin-top: 60px;
+      padding-top: 42px;
+      border-top: 1px solid var(--sim-border);
+    }
+
+    .physics-section h2 {
+      text-align: left;
+      font-size: 24px;
+      margin: 0 0 16px;
+      font-weight: 500;
+    }
+
+    .physics-section p {
+      max-width: 760px;
+      color: #bcbcbc;
+      line-height: 1.8;
+      margin: 0 0 16px;
+    }
+
+    .equation {
+      max-width: 760px;
+      margin: 12px 0;
+      padding: 14px 16px;
+      background: var(--sim-panel-dark);
+      border: 1px solid var(--sim-border);
+      border-radius: 8px;
+      color: #e4e4e4;
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .chart-wrap {
+      margin-top: 25px;
+      background: var(--sim-panel);
+      border: 1px solid var(--sim-border);
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    #forceChart {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .disclaimer {
+      margin-top: 28px;
+      color: var(--sim-muted) !important;
+      font-family: monospace;
+      font-size: 11px;
+      line-height: 1.7 !important;
+    }
+
+    @media (max-width: 900px) {
+      .sim-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .results-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 540px) {
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sim-page {
+        width: calc(100% - 28px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="sim-page">
+
+    <a href="../index.html" class="back-link">← back to projects</a>
+
+    <header class="sim-header">
+      <div class="sim-kicker">INTERACTIVE MODEL / CAM MECHANICS</div>
+      <h1>Climbing Cam<br>Physics Simulator</h1>
+      <p>
+        An interactive model of a spring-loaded climbing cam in a parallel-sided crack.
+        Adjust the camming angle, load, friction, reference radius, and lobe rotation
+        to see how the lobe geometry and internal forces change.
+      </p>
+    </header>
+
+    <div class="sim-layout">
+
+      <aside class="sim-panel">
+        <h2>Inputs</h2>
+
+        <div class="control">
+          <div class="control-header">
+            <label for="load">Applied load</label>
+            <span id="loadDisplay" class="control-value"></span>
+          </div>
+          <input id="load" type="range" min="0.5" max="15" value="6" step="0.1">
+        </div>
+
+        <div class="control">
+          <div class="control-header">
+            <label for="angle">Camming angle α</label>
+            <span id="angleDisplay" class="control-value"></span>
+          </div>
+          <input id="angle" type="range" min="5" max="25" value="14" step="0.1">
+        </div>
+
+        <div class="control">
+          <div class="control-header">
+            <label for="friction">Static friction μ</label>
+            <span id="frictionDisplay" class="control-value"></span>
+          </div>
+          <input id="friction" type="range" min="0.10" max="1.00" value="0.45" step="0.01">
+        </div>
+
+        <div class="control">
+          <div class="control-header">
+            <label for="radius">Reference radius r₀</label>
+            <span id="radiusDisplay" class="control-value"></span>
+          </div>
+          <input id="radius" type="range" min="12" max="35" value="20" step="1">
+        </div>
+
+        <div class="control">
+          <div class="control-header">
+            <label for="rotation">Lobe rotation θ</label>
+            <span id="rotationDisplay" class="control-value"></span>
+          </div>
+          <input id="rotation" type="range" min="0" max="90" value="35" step="1">
+        </div>
+      </aside>
+
+      <section class="sim-panel">
+        <h2>Parallel crack model</h2>
+
+        <svg
+          id="camGraphic"
+          viewBox="0 0 720 470"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-label="Interactive climbing cam simulation">
+        </svg>
+
+        <div class="legend">
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#b89424;"></span>
+            cam lobe
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#78d89b;"></span>
+            normal force
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#e2c66d;"></span>
+            friction / contact
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#ed8c8c;"></span>
+            applied load
+          </div>
+        </div>
+
+        <div id="status" class="status">
+          <span class="status-dot"></span>
+          <span id="statusText"></span>
+        </div>
+
+        <p class="visual-note">
+          Graphic is a simplified 2D analytical representation. The lobe outline is generated
+          from a logarithmic-style active cam surface with a CAD-inspired lobe body.
+        </p>
+      </section>
+
+    </div>
+
+    <section class="sim-panel results-section">
+      <h2>Calculated values</h2>
+
+      <div class="results-grid">
+
+        <div class="result-card">
+          <div class="result-name">LOAD PER LOBE</div>
+          <div id="tangentialResult" class="result-value"></div>
+          <div class="result-unit">kN</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-name">NORMAL FORCE / LOBE</div>
+          <div id="normalResult" class="result-value"></div>
+          <div class="result-unit">kN</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-name">NORMAL FORCE / WALL</div>
+          <div id="wallForceResult" class="result-value"></div>
+          <div class="result-unit">kN</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-name">AVAILABLE FRICTION / LOBE</div>
+          <div id="frictionForceResult" class="result-value"></div>
+          <div class="result-unit">kN</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-name">REQUIRED μ</div>
+          <div id="requiredFrictionResult" class="result-value"></div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-name">FRICTION MARGIN</div>
+          <div id="marginResult" class="result-value"></div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-name">CONTACT RADIUS</div>
+          <div id="radiusResult" class="result-value"></div>
+          <div class="result-unit">mm</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-name">CRACK WIDTH</div>
+          <div id="crackResult" class="result-value"></div>
+          <div class="result-unit">mm</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-name">FRICTION ANGLE</div>
+          <div id="frictionAngleResult" class="result-value"></div>
+          <div class="result-unit">degrees</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-name">EXPANSION RATIO</div>
+          <div id="expansionResult" class="result-value"></div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-name">FRICTION UTILIZATION</div>
+          <div id="utilizationResult" class="result-value"></div>
+          <div class="result-unit">%</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-name">TOTAL OUTWARD FORCE</div>
+          <div id="totalNormalResult" class="result-value"></div>
+          <div class="result-unit">kN</div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="physics-section">
+      <h2>Normal force vs. camming angle</h2>
+      <p>
+        For the same downward load, a smaller camming angle generates a larger outward
+        normal force. The dashed vertical line marks the currently selected camming angle.
+      </p>
+
+      <div class="chart-wrap">
+        <svg id="forceChart" viewBox="0 0 900 370" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </section>
+
+    <section class="physics-section">
+      <h2>Analytical model</h2>
+
+      <p>
+        The simulator uses a simplified symmetric four-lobe model. The total applied load
+        is divided equally among the four lobes.
+      </p>
+
+      <div class="equation">T = F / 4</div>
+
+      <p>For the rigid cam model, the force relationship is:</p>
+
+      <div class="equation">T = N tan(α)</div>
+
+      <p>Therefore:</p>
+
+      <div class="equation">N = T / tan(α)</div>
+
+      <p>The friction condition is:</p>
+
+      <div class="equation">μ ≥ tan(α)</div>
+
+      <p>The corresponding friction angle is:</p>
+
+      <div class="equation">φ = arctan(μ)</div>
+
+      <p>The active cam surface is modeled with a logarithmic relation:</p>
+
+      <div class="equation">r(θ) = r₀ e^(θ tan α)</div>
+
+      <p>
+        This lets the contact radius grow as the lobe rotates while preserving the constant-angle
+        behavior associated with logarithmic cam geometry.
+      </p>
+
+      <p class="disclaimer">
+        EDUCATIONAL MODEL ONLY — This simulator does not represent complete real-world climbing
+        protection behavior. Real cams are affected by elastic deformation, unequal lobe loading,
+        surface roughness, rock quality, crack flare, dynamic loading, manufacturing tolerances,
+        stem orientation, material failure, and other effects. Do not use this simulation to
+        determine whether real climbing equipment or a placement is safe.
+      </p>
+    </section>
+
+  </main>
+
+  <script>
+    const loadInput = document.getElementById("load");
+    const angleInput = document.getElementById("angle");
+    const frictionInput = document.getElementById("friction");
+    const radiusInput = document.getElementById("radius");
+    const rotationInput = document.getElementById("rotation");
+
+    function degToRad(degrees) {
+      return degrees * Math.PI / 180;
+    }
+
+    function radToDeg(radians) {
+      return radians * 180 / Math.PI;
+    }
+
+    function round(value, digits = 2) {
+      return Number(value).toFixed(digits);
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function transformLocalPoint(
+      localX,
+      localY,
+      cx,
+      cy,
+      rotationDeg,
+      scale,
+      mirror = false,
+      yOffset = 0
+    ) {
+      let x = localX;
+      let y = localY;
+
+      if (mirror) {
+        x = -x;
+      }
+
+      const rot = degToRad(rotationDeg);
+
+      const xr = x * Math.cos(rot) - y * Math.sin(rot);
+      const yr = x * Math.sin(rot) + y * Math.cos(rot);
+
+      return {
+        x: cx + xr * scale,
+        y: cy - yr * scale + yOffset
+      };
+    }
+
+    function buildCamLobePath(
+      cx,
+      cy,
+      r0,
+      alphaDeg,
+      rotationDeg,
+      scale,
+      mirror = false,
+      yOffset = 0
+    ) {
+      const alpha = degToRad(alphaDeg);
+      const b = Math.tan(alpha);
+
+      const thetaMax = 1.95;
+      const samples = 85;
+
+      const outerPoints = [];
+
+      for (let i = 0; i <= samples; i++) {
+        const t = i / samples;
+        const theta = thetaMax * t;
+        const radius = r0 * Math.exp(theta * b);
+
+        const polarAngle = degToRad(128) - 1.28 * theta;
+
+        const localX = radius * Math.cos(polarAngle);
+        const localY = radius * Math.sin(polarAngle);
+
+        outerPoints.push(
+          transformLocalPoint(
+            localX,
+            localY,
+            cx,
+            cy,
+            rotationDeg,
+            scale,
+            mirror,
+            yOffset
+          )
+        );
+      }
+
+      const lowerFlat = transformLocalPoint(
+        0.22 * r0,
+        -0.58 * r0,
+        cx,
+        cy,
+        rotationDeg,
+        scale,
+        mirror,
+        yOffset
+      );
+
+      const cornerA = transformLocalPoint(
+        -0.16 * r0,
+        -0.56 * r0,
+        cx,
+        cy,
+        rotationDeg,
+        scale,
+        mirror,
+        yOffset
+      );
+
+      const cornerB = transformLocalPoint(
+        -0.26 * r0,
+        -0.18 * r0,
+        cx,
+        cy,
+        rotationDeg,
+        scale,
+        mirror,
+        yOffset
+      );
+
+      const upperBack = transformLocalPoint(
+        -0.10 * r0,
+        0.40 * r0,
+        cx,
+        cy,
+        rotationDeg,
+        scale,
+        mirror,
+        yOffset
+      );
+
+      const startPoint = outerPoints[0];
+
+      let path = `M ${startPoint.x} ${startPoint.y}`;
+
+      for (let i = 1; i < outerPoints.length; i++) {
+        path += ` L ${outerPoints[i].x} ${outerPoints[i].y}`;
+      }
+
+      path += ` L ${lowerFlat.x} ${lowerFlat.y}`;
+      path += ` L ${cornerA.x} ${cornerA.y}`;
+      path += ` L ${cornerB.x} ${cornerB.y}`;
+      path += ` L ${upperBack.x} ${upperBack.y}`;
+      path += " Z";
+
+      return path;
+    }
+
+    function buildCamWindowPath(
+      cx,
+      cy,
+      r0,
+      rotationDeg,
+      scale,
+      mirror = false,
+      yOffset = 0
+    ) {
+      const localPoints = [
+        { x: 0.14 * r0, y: 0.28 * r0 },
+        { x: 0.92 * r0, y: 0.46 * r0 },
+        { x: 1.20 * r0, y: 0.00 * r0 },
+        { x: 0.84 * r0, y: -0.34 * r0 },
+        { x: 0.18 * r0, y: -0.20 * r0 },
+        { x: 0.00 * r0, y: 0.06 * r0 }
+      ];
+
+      const points = localPoints.map(point =>
+        transformLocalPoint(
+          point.x,
+          point.y,
+          cx,
+          cy,
+          rotationDeg,
+          scale,
+          mirror,
+          yOffset
+        )
+      );
+
+      let path = `M ${points[0].x} ${points[0].y}`;
+
+      for (let i = 1; i < points.length; i++) {
+        path += ` L ${points[i].x} ${points[i].y}`;
+      }
+
+      path += " Z";
+
+      return path;
+    }
+
+    function renderCam(data) {
+      const svg = document.getElementById("camGraphic");
+
+      const {
+        F,
+        alphaDeg,
+        thetaDeg,
+        r0,
+        contactRadius,
+        crackWidth,
+        N,
+        T,
+        mu,
+        frictionForce,
+        safe
+      } = data;
+
+      const width = 720;
+      const height = 470;
+
+      const cx = width / 2;
+      const cy = 215;
+
+      const alpha = degToRad(alphaDeg);
+
+      const maximumVisualHalfGap = 230;
+
+      let scale = maximumVisualHalfGap / (contactRadius * Math.cos(alpha));
+      scale = clamp(scale, 2.0, 4.1);
+
+      const halfGap = contactRadius * Math.cos(alpha) * scale;
+      const contactYOffset = contactRadius * Math.sin(alpha) * scale;
+
+      const leftWallX = cx - halfGap;
+      const rightWallX = cx + halfGap;
+      const contactY = cy - contactYOffset;
+
+      const bodyRotation = -8 - thetaDeg * 0.92;
+
+      const leftRear = buildCamLobePath(
+        cx, cy, r0, alphaDeg, bodyRotation, scale, true, -7
+      );
+
+      const leftFront = buildCamLobePath(
+        cx, cy, r0, alphaDeg, bodyRotation, scale, true, 7
+      );
+
+      const rightRear = buildCamLobePath(
+        cx, cy, r0, alphaDeg, bodyRotation, scale, false, -7
+      );
+
+      const rightFront = buildCamLobePath(
+        cx, cy, r0, alphaDeg, bodyRotation, scale, false, 7
+      );
+
+      const leftRearWindow = buildCamWindowPath(
+        cx, cy, r0, bodyRotation, scale, true, -7
+      );
+
+      const leftFrontWindow = buildCamWindowPath(
+        cx, cy, r0, bodyRotation, scale, true, 7
+      );
+
+      const rightRearWindow = buildCamWindowPath(
+        cx, cy, r0, bodyRotation, scale, false, -7
+      );
+
+      const rightFrontWindow = buildCamWindowPath(
+        cx, cy, r0, bodyRotation, scale, false, 7
+      );
+
+      const normalArrowLength = clamp(30 + N * 5, 38, 105);
+      const loadArrowLength = clamp(35 + F * 4, 40, 95);
+      const frictionArrowLength = clamp(20 + frictionForce * 4, 30, 78);
+
+      const conditionColor = safe ? "#78d89b" : "#ed8c8c";
+
+      svg.innerHTML = `
+        <rect
+          x="0"
+          y="0"
+          width="${width}"
+          height="${height}"
+          rx="8"
+          fill="#171717"
+        />
+
+        <rect
+          x="${leftWallX - 46}"
+          y="25"
+          width="46"
+          height="350"
+          rx="3"
+          fill="#393939"
+        />
+
+        <rect
+          x="${rightWallX}"
+          y="25"
+          width="46"
+          height="350"
+          rx="3"
+          fill="#393939"
+        />
+
+        <line
+          x1="${leftWallX - 8}"
+          y1="32"
+          x2="${leftWallX - 8}"
+          y2="366"
+          stroke="#4c4c4c"
+          stroke-width="2"
+        />
+
+        <line
+          x1="${rightWallX + 8}"
+          y1="32"
+          x2="${rightWallX + 8}"
+          y2="366"
+          stroke="#4c4c4c"
+          stroke-width="2"
+        />
+
+        <path
+          d="${leftRear}"
+          fill="#5c6482"
+          stroke="#7d88a8"
+          stroke-width="2"
+          opacity="0.72"
+        />
+
+        <path
+          d="${rightRear}"
+          fill="#5c6482"
+          stroke="#7d88a8"
+          stroke-width="2"
+          opacity="0.72"
+        />
+
+        <path
+          d="${leftRearWindow}"
+          fill="#171717"
+          opacity="0.85"
+        />
+
+        <path
+          d="${rightRearWindow}"
+          fill="#171717"
+          opacity="0.85"
+        />
+
+        <path
+          d="${leftFront}"
+          fill="#b89424"
+          stroke="#e0c15a"
+          stroke-width="2.6"
+        />
+
+        <path
+          d="${rightFront}"
+          fill="#b89424"
+          stroke="#e0c15a"
+          stroke-width="2.6"
+        />
+
+        <path
+          d="${leftFrontWindow}"
+          fill="#171717"
+          opacity="0.95"
+        />
+
+        <path
+          d="${rightFrontWindow}"
+          fill="#171717"
+          opacity="0.95"
+        />
+
+        <line
+          x1="${cx}"
+          y1="${cy + 15}"
+          x2="${cx}"
+          y2="${cy + 122}"
+          stroke="#858585"
+          stroke-width="11"
+          stroke-linecap="round"
+        />
+
+        <circle
+          cx="${cx}"
+          cy="${cy}"
+          r="18"
+          fill="#d0d0d0"
+          stroke="#eeeeee"
+          stroke-width="2.5"
+        />
+
+        <circle
+          cx="${cx}"
+          cy="${cy}"
+          r="7"
+          fill="#555555"
+        />
+
+        <line
+          x1="${cx}"
+          y1="${cy}"
+          x2="${rightWallX}"
+          y2="${contactY}"
+          stroke="#666666"
+          stroke-width="1.5"
+          stroke-dasharray="5 5"
+        />
+
+        <line
+          x1="${cx}"
+          y1="${cy}"
+          x2="${leftWallX}"
+          y2="${contactY}"
+          stroke="#666666"
+          stroke-width="1.5"
+          stroke-dasharray="5 5"
+        />
+
+        <circle
+          cx="${leftWallX}"
+          cy="${contactY}"
+          r="7"
+          fill="#e2c66d"
+        />
+
+        <circle
+          cx="${rightWallX}"
+          cy="${contactY}"
+          r="7"
+          fill="#e2c66d"
+        />
+
+        <line
+          x1="${leftWallX}"
+          y1="${contactY}"
+          x2="${leftWallX + normalArrowLength}"
+          y2="${contactY}"
+          stroke="#78d89b"
+          stroke-width="4"
+        />
+
+        <polygon
+          points="
+            ${leftWallX + normalArrowLength},${contactY}
+            ${leftWallX + normalArrowLength - 12},${contactY - 7}
+            ${leftWallX + normalArrowLength - 12},${contactY + 7}
+          "
+          fill="#78d89b"
+        />
+
+        <line
+          x1="${rightWallX}"
+          y1="${contactY}"
+          x2="${rightWallX - normalArrowLength}"
+          y2="${contactY}"
+          stroke="#78d89b"
+          stroke-width="4"
+        />
+
+        <polygon
+          points="
+            ${rightWallX - normalArrowLength},${contactY}
+            ${rightWallX - normalArrowLength + 12},${contactY - 7}
+            ${rightWallX - normalArrowLength + 12},${contactY + 7}
+          "
+          fill="#78d89b"
+        />
+
+        <line
+          x1="${leftWallX}"
+          y1="${contactY}"
+          x2="${leftWallX}"
+          y2="${contactY - frictionArrowLength}"
+          stroke="#e2c66d"
+          stroke-width="3"
+        />
+
+        <polygon
+          points="
+            ${leftWallX},${contactY - frictionArrowLength - 9}
+            ${leftWallX - 6},${contactY - frictionArrowLength + 3}
+            ${leftWallX + 6},${contactY - frictionArrowLength + 3}
+          "
+          fill="#e2c66d"
+        />
+
+        <line
+          x1="${rightWallX}"
+          y1="${contactY}"
+          x2="${rightWallX}"
+          y2="${contactY - frictionArrowLength}"
+          stroke="#e2c66d"
+          stroke-width="3"
+        />
+
+        <polygon
+          points="
+            ${rightWallX},${contactY - frictionArrowLength - 9}
+            ${rightWallX - 6},${contactY - frictionArrowLength + 3}
+            ${rightWallX + 6},${contactY - frictionArrowLength + 3}
+          "
+          fill="#e2c66d"
+        />
+
+        <line
+          x1="${cx}"
+          y1="${cy + 103}"
+          x2="${cx}"
+          y2="${cy + 103 + loadArrowLength}"
+          stroke="#ed8c8c"
+          stroke-width="5"
+        />
+
+        <polygon
+          points="
+            ${cx},${cy + 114 + loadArrowLength}
+            ${cx - 8},${cy + 98 + loadArrowLength}
+            ${cx + 8},${cy + 98 + loadArrowLength}
+          "
+          fill="#ed8c8c"
+        />
+
+        <path
+          d="
+            M ${cx + 50} ${cy}
+            A 50 50 0 0 0
+            ${cx + 50 * Math.cos(alpha)}
+            ${cy - 50 * Math.sin(alpha)}
+          "
+          fill="none"
+          stroke="#e2c66d"
+          stroke-width="2"
+        />
+
+        <text
+          x="${cx + 58}"
+          y="${cy - 15}"
+          fill="#e2c66d"
+          font-family="monospace"
+          font-size="13"
+        >
+          α = ${alphaDeg.toFixed(1)}°
+        </text>
+
+        <text
+          x="${leftWallX + 15}"
+          y="${contactY - 10}"
+          fill="#78d89b"
+          font-family="monospace"
+          font-size="12"
+        >
+          N = ${N.toFixed(1)} kN
+        </text>
+
+        <text
+          x="${cx + 15}"
+          y="${cy + 125}"
+          fill="#ed8c8c"
+          font-family="monospace"
+          font-size="12"
+        >
+          F = ${F.toFixed(1)} kN
+        </text>
+
+        <line
+          x1="${leftWallX}"
+          y1="405"
+          x2="${rightWallX}"
+          y2="405"
+          stroke="#888888"
+          stroke-width="1.5"
+        />
+
+        <line
+          x1="${leftWallX}"
+          y1="397"
+          x2="${leftWallX}"
+          y2="413"
+          stroke="#888888"
+        />
+
+        <line
+          x1="${rightWallX}"
+          y1="397"
+          x2="${rightWallX}"
+          y2="413"
+          stroke="#888888"
+        />
+
+        <text
+          x="${cx}"
+          y="432"
+          text-anchor="middle"
+          fill="#999999"
+          font-family="monospace"
+          font-size="12"
+        >
+          crack width = ${crackWidth.toFixed(1)} mm
+        </text>
+
+        <text
+          x="20"
+          y="25"
+          fill="${conditionColor}"
+          font-family="monospace"
+          font-size="12"
+        >
+          μ = ${mu.toFixed(2)}
+        </text>
+
+        <text
+          x="20"
+          y="44"
+          fill="#8d8d8d"
+          font-family="monospace"
+          font-size="11"
+        >
+          θ = ${thetaDeg.toFixed(0)}°
+        </text>
+
+        <text
+          x="20"
+          y="62"
+          fill="#8d8d8d"
+          font-family="monospace"
+          font-size="11"
+        >
+          r = ${contactRadius.toFixed(1)} mm
+        </text>
+      `;
+    }
+
+    function calculate() {
+      const F = Number(loadInput.value);
+      const alphaDeg = Number(angleInput.value);
+      const mu = Number(frictionInput.value);
+      const r0 = Number(radiusInput.value);
+      const thetaDeg = Number(rotationInput.value);
+
+      const alpha = degToRad(alphaDeg);
+      const theta = degToRad(thetaDeg);
+
+      const T = F / 4;
+      const requiredMu = Math.tan(alpha);
+      const N = T / requiredMu;
+
+      const wallForce = 2 * N;
+      const totalNormalForce = 4 * N;
+
+      const frictionForce = mu * N;
+      const frictionMargin = mu / requiredMu;
+      const utilization = (T / frictionForce) * 100;
+      const frictionAngle = radToDeg(Math.atan(mu));
+
+      const contactRadius = r0 * Math.exp(theta * Math.tan(alpha));
+      const halfCrackWidth = contactRadius * Math.cos(alpha);
+      const crackWidth = 2 * halfCrackWidth;
+      const expansionRatio = contactRadius / r0;
+
+      document.getElementById("loadDisplay").textContent = `${round(F, 1)} kN`;
+      document.getElementById("angleDisplay").textContent = `${round(alphaDeg, 1)}°`;
+      document.getElementById("frictionDisplay").textContent = round(mu, 2);
+      document.getElementById("radiusDisplay").textContent = `${round(r0, 0)} mm`;
+      document.getElementById("rotationDisplay").textContent = `${round(thetaDeg, 0)}°`;
+
+      document.getElementById("tangentialResult").textContent = round(T);
+      document.getElementById("normalResult").textContent = round(N);
+      document.getElementById("wallForceResult").textContent = round(wallForce);
+      document.getElementById("frictionForceResult").textContent = round(frictionForce);
+      document.getElementById("requiredFrictionResult").textContent = round(requiredMu, 3);
+      document.getElementById("marginResult").textContent = `${round(frictionMargin, 2)}×`;
+      document.getElementById("radiusResult").textContent = round(contactRadius, 1);
+      document.getElementById("crackResult").textContent = round(crackWidth, 1);
+      document.getElementById("frictionAngleResult").textContent = round(frictionAngle, 1);
+      document.getElementById("expansionResult").textContent = `${round(expansionRatio, 2)}×`;
+      document.getElementById("utilizationResult").textContent = round(utilization, 1);
+      document.getElementById("totalNormalResult").textContent = round(totalNormalForce);
+
+      const safe = mu >= requiredMu;
+      const status = document.getElementById("status");
+      const statusText = document.getElementById("statusText");
+
+      status.classList.remove("safe", "unsafe");
+
+      if (safe) {
+        status.classList.add("safe");
+        statusText.textContent = "STATIC FRICTION CONDITION SATISFIED";
+      } else {
+        status.classList.add("unsafe");
+        statusText.textContent = "STATIC FRICTION CONDITION NOT SATISFIED";
+      }
+
+      renderCam({
+        F,
+        alphaDeg,
+        thetaDeg,
+        r0,
+        contactRadius,
+        crackWidth,
+        N,
+        T,
+        mu,
+        frictionForce,
+        safe
+      });
+
+      drawChart(F, alphaDeg);
+    }
+
+    function drawChart(F, currentAngle) {
+      const svg = document.getElementById("forceChart");
+
+      const W = 900;
+      const H = 370;
+
+      const left = 72;
+      const right = 30;
+      const top = 30;
+      const bottom = 60;
+
+      const graphWidth = W - left - right;
+      const graphHeight = H - top - bottom;
+
+      const values = [];
+      let maxN = 0;
+
+      for (let angle = 5; angle <= 25; angle += 0.25) {
+        const N = (F / 4) / Math.tan(degToRad(angle));
+        values.push({ angle, N });
+        maxN = Math.max(maxN, N);
+      }
+
+      maxN *= 1.08;
+
+      function xScale(angle) {
+        return left + ((angle - 5) / 20) * graphWidth;
+      }
+
+      function yScale(force) {
+        return top + graphHeight - (force / maxN) * graphHeight;
+      }
+
+      let html = "";
+
+      for (let angle = 5; angle <= 25; angle += 5) {
+        const x = xScale(angle);
+
+        html += `
+          <line
+            x1="${x}"
+            y1="${top}"
+            x2="${x}"
+            y2="${top + graphHeight}"
+            stroke="#303030"
+          />
+
+          <text
+            x="${x}"
+            y="${H - 25}"
+            text-anchor="middle"
+            fill="#858585"
+            font-family="monospace"
+            font-size="12"
+          >
+            ${angle}°
+          </text>
+        `;
+      }
+
+      for (let i = 0; i <= 4; i++) {
+        const force = (maxN / 4) * i;
+        const y = yScale(force);
+
+        html += `
+          <line
+            x1="${left}"
+            y1="${y}"
+            x2="${W - right}"
+            y2="${y}"
+            stroke="#303030"
+          />
+
+          <text
+            x="${left - 12}"
+            y="${y + 4}"
+            text-anchor="end"
+            fill="#858585"
+            font-family="monospace"
+            font-size="12"
+          >
+            ${force.toFixed(1)}
+          </text>
+        `;
+      }
+
+      let points = "";
+
+      values.forEach(point => {
+        points += `${xScale(point.angle)},${yScale(point.N)} `;
+      });
+
+      html += `
+        <polyline
+          points="${points}"
+          fill="none"
+          stroke="#b89424"
+          stroke-width="3"
+        />
+      `;
+
+      const markerX = xScale(currentAngle);
+
+      html += `
+        <line
+          x1="${markerX}"
+          y1="${top}"
+          x2="${markerX}"
+          y2="${top + graphHeight}"
+          stroke="#e2c66d"
+          stroke-width="2"
+          stroke-dasharray="6 5"
+        />
+      `;
+
+      html += `
+        <text
+          x="${W / 2}"
+          y="${H - 4}"
+          text-anchor="middle"
+          fill="#a0a0a0"
+          font-size="13"
+          font-family="monospace"
+        >
+          CAMMING ANGLE α
+        </text>
+
+        <text
+          transform="rotate(-90)"
+          x="${-H / 2}"
+          y="18"
+          text-anchor="middle"
+          fill="#a0a0a0"
+          font-size="13"
+          font-family="monospace"
+        >
+          NORMAL FORCE / LOBE (kN)
+        </text>
+      `;
+
+      svg.innerHTML = html;
+    }
+
+    [loadInput, angleInput, frictionInput, radiusInput, rotationInput].forEach(input => {
+      input.addEventListener("input", calculate);
+    });
+
+    calculate();
+  </script>
+
+</body>
+
+</html>

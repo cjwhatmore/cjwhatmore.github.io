@@ -355,3 +355,17 @@ footer {
     display: none;
   }
 }
+
+.simulation-link {
+  display: inline-block;
+  margin-top: 15px;
+  color: #bcbcbc;
+  font-family: monospace;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.simulation-link:hover {
+  color: white;
+}
